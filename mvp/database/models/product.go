@@ -18,15 +18,19 @@ type Product struct {
 	Cost             string
 	Code             string
 	Barcode          string
-	LockPurchaseCost string
-	LockSalePrice    string
+	LockPurchaseCost int
+	LockSalePrice    int
 	Description      string
-	PointMember      string
+	PointMember      int
 	BrandId          string
-	NotForSale       string
+	NotForSale       int
 	CreatedBy        string
 	UpdatedBy        string
 	DeletedBy        string
+	WarehouseId      string
+	Stock            string
+	UnitName         string
+	CategoryName     string
 }
 
 func (product *Product) BeforeCreate(tx *gorm.DB) (err error) {

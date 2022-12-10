@@ -14,8 +14,8 @@ var assets embed.FS
 
 func main() {
 	// Create an instance of the app structure
-	app := NewApp()
-	repository := repository.NewRepository(&app.Ctx, app.Db, app.Api)
+	r := repository.NewRepository()
+	app := NewApp(r)
 
 	// Create application with options
 	err := wails.Run(&options.App{
@@ -25,11 +25,11 @@ func main() {
 		AssetServer: &assetserver.Options{
 			Assets: assets,
 		},
-		BackgroundColour: &options.RGBA{R: 27, G: 38, B: 54, A: 1},
-		OnStartup:        app.startup,
+		// BackgroundColour: &options.RGBA{R: 27, G: 38, B: 54, A: 1},
+		OnStartup: app.startup,
 		Bind: []interface{}{
 			app,
-			repository,
+			r,
 		},
 	})
 

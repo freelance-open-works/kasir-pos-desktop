@@ -3,6 +3,7 @@ module kasirajapos
 go 1.18
 
 require (
+	github.com/alimasyhur/is-connect v0.0.0-20180112042527-a7e9ece095d0
 	github.com/google/uuid v1.1.2
 	github.com/wailsapp/wails/v2 v2.2.0
 	gorm.io/driver/sqlite v1.4.3
@@ -10,7 +11,6 @@ require (
 )
 
 require (
-	github.com/alimasyhur/is-connect v0.0.0-20180112042527-a7e9ece095d0
 	github.com/bep/debounce v1.2.1 // indirect
 	github.com/go-ole/go-ole v1.2.6 // indirect
 	github.com/go-resty/resty/v2 v2.7.0
@@ -33,7 +33,7 @@ require (
 	github.com/valyala/bytebufferpool v1.0.0 // indirect
 	github.com/valyala/fasttemplate v1.2.1 // indirect
 	github.com/wailsapp/mimetype v1.4.1 // indirect
-	golang.org/x/crypto v0.0.0-20210921155107-089bfa567519 // indirect
+	golang.org/x/crypto v0.0.0-20210921155107-089bfa567519
 	golang.org/x/exp v0.0.0-20220303212507-bbda1eaf7a17 // indirect
 	golang.org/x/net v0.0.0-20220722155237-a158d28d115b // indirect
 	golang.org/x/sys v0.0.0-20220722155257-8c9f86f7a55f // indirect

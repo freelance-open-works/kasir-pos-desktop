@@ -5,12 +5,13 @@ import (
 	"kasirajapos/mvp/api/response"
 
 	"github.com/go-resty/resty/v2"
+	"github.com/wailsapp/wails/v2/pkg/runtime"
 )
 
-func (api *Api) Login(username, password string) *response.AuthResponse {
+func (api *Api) Login(username, password string) *response.Auth {
 	// go login logic
-	authResponse := &response.AuthResponse{}
-	url := fmt.Sprintf("%s/v1/login", api.BASE_URL)
+	authResponse := &response.Auth{}
+	url := fmt.Sprintf("%s/login", api.BASE_URL)
 
 	var client = resty.New()
 
@@ -23,6 +24,7 @@ func (api *Api) Login(username, password string) *response.AuthResponse {
 
 	if err != nil {
 		fmt.Println(err)
+		runtime.EventsEmit(api.ctx, "toast_general", "Server Error")
 	}
 
 	return authResponse

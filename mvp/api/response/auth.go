@@ -2,7 +2,7 @@ package response
 
 import "time"
 
-type AuthResponse struct {
+type Auth struct {
 	Status string `json:"status"`
 	User   struct {
 		ID              string      `json:"id"`

@@ -10,7 +10,7 @@ type Sale struct {
 	ID               string `gorm:"primaryKey"`
 	OfficeId         string
 	WarehouseId      string
-	Payment_typeId   string
+	PaymentTypeId    string
 	CustomerId       string
 	SaleOrderId      string
 	Code             string
@@ -28,6 +28,7 @@ type Sale struct {
 	CreatedBy        string
 	UpdatedBy        string
 	DeletedBy        string
+	IsSync           string
 }
 
 func (sale *Sale) BeforeCreate(tx *gorm.DB) (err error) {

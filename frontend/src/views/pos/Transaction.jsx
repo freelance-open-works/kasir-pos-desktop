@@ -6,7 +6,7 @@ export default function Transaction() {
     const { logout } = useBucket()
 
     return (
-        <div className="text-3xl font-bold text-gray-50">
+        <div className="text-3xl font-bold text-gray-50 bg-gray-900 min-h-screen">
             <div>
                 Transaction Page
             </div>

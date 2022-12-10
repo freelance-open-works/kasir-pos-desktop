@@ -7,12 +7,15 @@ import (
 	"github.com/wailsapp/wails/v2/pkg/runtime"
 	"gorm.io/driver/sqlite"
 	"gorm.io/gorm"
+	"gorm.io/gorm/logger"
 )
 
 const DATABASE = ".kasirajaposdesktop.db"
 
 func NewDb(ctx context.Context) *gorm.DB {
-	db, err := gorm.Open(sqlite.Open(DATABASE), &gorm.Config{})
+	db, err := gorm.Open(sqlite.Open(DATABASE), &gorm.Config{
+		Logger: logger.Default.LogMode(logger.Silent),
+	})
 	if err != nil {
 		runtime.LogDebug(ctx, "DB CONNECT ERROR")
 		return nil

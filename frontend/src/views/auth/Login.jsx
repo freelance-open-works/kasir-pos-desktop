@@ -4,7 +4,8 @@ import { Button, TextInput,Label, Spinner } from 'flowbite-react';
 import { useBucket } from "../../context/AppContext";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { Login } from "wails/go/repository/Repository";
+import { Login, SyncGet } from "wails/go/repository/Repository";
+import { toast } from "react-toastify";
 
 export default function LoginPage() {
     const { user, setUser } = useBucket()
@@ -22,8 +23,21 @@ export default function LoginPage() {
     }
 
     const submit = () => {
-        Login()
-        .then(() => console.log('login'))
+        setLoading(true)
+        Login(username, password)
+        .then(async (user) => {
+            if (user !== null) {
+                setUser(user)
+                console.log(user)
+                if(user.Sync === true) {
+                    console.log(user.WarehouseId)
+                    await SyncGet(user.WarehouseId)
+                }
+                return
+            }
+            toast.error("Username / Password Salah")
+        })
+        .finally(() => setLoading(false))
     }
 
     useEffect(() => {

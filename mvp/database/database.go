@@ -14,7 +14,7 @@ const DATABASE = ".kasirajaposdesktop.db"
 
 func NewDb(ctx context.Context) *gorm.DB {
 	db, err := gorm.Open(sqlite.Open(DATABASE), &gorm.Config{
-		Logger: logger.Default.LogMode(logger.Silent),
+		Logger: logger.Default.LogMode(logger.Info),
 	})
 	if err != nil {
 		runtime.LogDebug(ctx, "DB CONNECT ERROR")

@@ -9,10 +9,15 @@ import (
 	"gorm.io/gorm"
 )
 
+type RepositoryBundle struct {
+	LoginCounter int
+}
+
 type Repository struct {
-	ctx context.Context
-	db  *gorm.DB
-	api *api.Api
+	ctx    context.Context
+	db     *gorm.DB
+	api    *api.Api
+	bundle *RepositoryBundle
 }
 
 func NewRepository() *Repository {
@@ -23,6 +28,7 @@ func (r *Repository) Setup(ctx context.Context, db *gorm.DB, api *api.Api) {
 	r.ctx = ctx
 	r.db = db
 	r.api = api
+	r.bundle = &RepositoryBundle{}
 }
 
 func (r *Repository) SyncGet(warehouseId string) {
@@ -39,7 +45,9 @@ func (r *Repository) SyncGet(warehouseId string) {
 			products := r.api.GetProducts(warehouseId, page, limit)
 			r.CreateOrUpdateProductFromResponse(products)
 			next = products.NextPageURL
+
 			runtime.EventsEmit(r.ctx, "sync_progrees", []int{products.LastPage, products.CurrentPage})
 		}
 	}
+	// hello
 }

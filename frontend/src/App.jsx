@@ -1,7 +1,6 @@
-import React, { useState } from "react";
-import { useEffect } from "react";
+import React from "react";
+import { useEffect, useCallback } from "react";
 import { HashRouter, Routes, Route } from "react-router-dom";
-import { Progress } from "flowbite-react";
 import { ToastContainer, toast } from 'react-toastify';
 import { EventsOn, EventsOff } from "../wailsjs/runtime";
 
@@ -11,26 +10,32 @@ import Login from "./views/auth/Login";
 import Transaction from "./views/pos/Transaction";
 
 function App() {
-    const [progress, setProgrees] = useState(0)
+    const handleKeyPress = useCallback((event) => {
+        console.log(`Key pressed: ${event.key}`);
+    }, []);
+    
+    useEffect(() => {
+        // attach the event listener
+        document.addEventListener('keydown', handleKeyPress);
+    
+        // remove the event listener
+        return () => {
+            document.removeEventListener('keydown', handleKeyPress);
+        };
+    }, [handleKeyPress]);
 
     useEffect(() => {
         EventsOn("toast_general", (message) => {
             toast(message)
         })
-        
-        EventsOn("sync_progrees", (percent) => {
-            console.log(percent)
-            setProgrees((percent[1]/percent[0]) * 100)
-        })
 
-        return () => EventsOff("toast_general", "sync_progrees")
+        return () => EventsOff("toast_general")
     })
 
     return (
         <AppProvider>
             <ErrorBoundary>
                 <HashRouter>
-                    <Progress progress={progress} />
                     <Routes>
                         <Route path="/" element={<Login />} exact />
                         <Route path="/transaction" element={<Transaction/>} exact />

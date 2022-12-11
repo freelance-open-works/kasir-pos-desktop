@@ -1,9 +1,19 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import { Button } from "flowbite-react";
+import React, { useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import { useBucket } from "../../context/AppContext";
+import ModalSync from "./ModalSync";
 
 export default function Transaction() {
-    const { logout } = useBucket()
+    const { logout, user } = useBucket()
+
+    const navigate = useNavigate()
+
+    useEffect(() => {
+        if (user === null) {
+            navigate("/")
+        }
+    }, [user])
 
     return (
         <div className="text-3xl font-bold text-gray-50 bg-gray-900 min-h-screen">
@@ -13,9 +23,10 @@ export default function Transaction() {
             <Link to={"/"}>
                 Back
             </Link>
-            <div onClick={() => logout()}>
+            <Button onClick={() => logout()}>
                 Logout
-            </div>
+            </Button>
+            <ModalSync/>
         </div>
     )
 }

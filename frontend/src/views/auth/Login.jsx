@@ -28,9 +28,7 @@ export default function LoginPage() {
         .then(async (user) => {
             if (user !== null) {
                 setUser(user)
-                console.log(user)
                 if(user.Sync === true) {
-                    console.log(user.WarehouseId)
                     await SyncGet(user.WarehouseId)
                 }
                 return
@@ -47,7 +45,7 @@ export default function LoginPage() {
     }, [user])
 
     return (
-        <div className="min-h-screen flex flex-col sm:justify-center items-center bg-gray-900">
+        <div className="min-h-screen flex flex-col justify-center items-center bg-gray-900">
             <div className="text-3xl font-bold text-gray-800 dark:text-gray-100">
                 KasirAja POS
             </div>
@@ -64,6 +62,7 @@ export default function LoginPage() {
                             autoComplete="username"
                             autoFocus={true}
                             onChange={e => setUsername(e.target.value)}
+                            onKeyDownCapture={e => handleKeyDown(e)}
                         />
                     </div>
 

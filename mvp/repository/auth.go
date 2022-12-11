@@ -8,18 +8,25 @@ import (
 )
 
 func (r *Repository) Login(username, password string) *User {
+	isSync := false
+
 	if isconnect.IsOnline() {
+		if r.bundle.LoginCounter <= 0 {
+			isSync = true
+		}
+		r.bundle.LoginCounter += 1
 		// fetch online data and add to user
 		resp := r.api.Login(username, password)
 		// save to local db
 		r.UpdateOrCreateUserFromResponse(resp)
 		// update api token
 		r.api.SetToken(resp.Authorisation.Token)
+
 		return &User{
 			Username:    resp.User.Username,
 			Token:       resp.Authorisation.Token,
 			WarehouseId: resp.User.WarehouseID,
-			Sync:        true,
+			Sync:        isSync,
 		}
 	}
 
@@ -36,7 +43,7 @@ func (r *Repository) Login(username, password string) *User {
 			Username:    user.Username,
 			Token:       user.JwtToken,
 			WarehouseId: user.WarehouseId,
-			Sync:        false,
+			Sync:        isSync,
 		}
 	}
 

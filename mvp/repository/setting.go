@@ -32,4 +32,17 @@ func (r *Repository) SyncSetting() {
 		settings := r.api.GetSettings()
 		r.UpdateOrCreateSettingFromResponse(settings)
 	}
+
+	r.ReloadBundleSetting()
+}
+
+func (r *Repository) ReloadBundleSetting() {
+	// setup setting bundle
+	settings := []*models.Setting{}
+	err := r.db.Find(&settings).Error
+	if err == nil {
+		for _, set := range settings {
+			r.bundle.Settings[set.Key] = set
+		}
+	}
 }

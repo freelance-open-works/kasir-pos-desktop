@@ -1,12 +1,41 @@
-import React, { useEffect, useCallback } from "react";
+import React, { useEffect, useCallback, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "flowbite-react";
 import { useBucket } from "../../context/AppContext";
 import ModalSync from "./ModalSync";
+import { defaultItems } from "./helper";
 
 export default function Transaction() {
     const { logout, user } = useBucket()
     const navigate = useNavigate()
+
+    const [items, setItems] = useState(() => defaultItems())
+
+    const addItem = (e) => {
+        const Index = items.findIndex(i => {
+            console.log("I", i)
+            return i.Barcode === ""
+        })
+        if (Index === -1) {
+            setItems(items.concat({
+                Barcode: e.target.value, 
+                Name: e.target.value,
+                Price: 0,
+                UnitName: "",
+            }))
+        } else {
+            setItems(items.map((item, i) => {
+                if (i === Index) {
+                    return {
+                        ...item,
+                        Barcode: e.target.value, 
+                        Name: e.target.value
+                    }
+                }
+                return item
+            }))
+        }
+    }
 
     const back = () => {
         navigate("/")
@@ -54,7 +83,7 @@ export default function Transaction() {
                     <thead className="text-xs sticky top-0 text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                         <tr>
                             <th scope="col" className="py-3 px-6">
-                                Kode
+                                Barcode
                             </th>
                             <th scope="col" className="py-3 px-6">
                                 Nama
@@ -80,31 +109,31 @@ export default function Transaction() {
                         </tr>
                     </thead>
                     <tbody>
-                        {[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15].map(() => (
-                            <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700" >
+                        {items.map((item, index) => (
+                            <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700" key={index}>
                                 <td scope="row" className="py-2 px-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                    8975233
+                                    {item.Barcode}
                                 </td>
                                 <td className="px-6">
-                                    Tempat Kotak 
+                                    {item.Name}
                                 </td>
                                 <td className="px-6 text-right">
-                                    1.000.000
+                                    {item.Price}
                                 </td>
                                 <td className="px-6">
-                                    PCS
+                                    {item.UnitName}
                                 </td>
                                 <td className="py-2">
-                                    <input className="h-8 w-20 text-right bg-gray-800" value={9}/>
+                                    <input className="h-8 w-20 text-right bg-gray-800"/>
                                 </td>
                                 <td className="py-2">
-                                    <input className="h-8 w-20 text-right bg-gray-800" value={1000}/>
+                                    <input className="h-8 w-20 text-right bg-gray-800"/>
                                 </td>
                                 <td className="py-2">
-                                    <input className="h-8 w-20 text-right bg-gray-800" value={0}/>
+                                    <input className="h-8 w-20 text-right bg-gray-800"/>
                                 </td>
                                 <td className="px-6 text-right">
-                                    8.999.000
+                                    
                                 </td>
                             </tr>
                         ))}
@@ -115,6 +144,7 @@ export default function Transaction() {
                 <input 
                     className="w-full h-16 text-gray-900 text-5xl border-blue-600"
                     autoFocus={true}
+                    onChange={addItem}
                 />
             </div>
             <div className="flex space-x-2 justify-end">

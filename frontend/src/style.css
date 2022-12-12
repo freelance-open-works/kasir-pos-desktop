@@ -1,3 +1,13 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.table-wrp  {
+    max-height: 75vh;
+    overflow-y: auto;
+    display:block;
+}
+
+.h-100 {
+    height: 30em;
+}

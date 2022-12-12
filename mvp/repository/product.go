@@ -3,11 +3,14 @@ package repository
 import (
 	"kasirajapos/mvp/api/response"
 	"kasirajapos/mvp/database/models"
+	"kasirajapos/mvp/utils/constants"
 
+	isconnect "github.com/alimasyhur/is-connect"
+	"github.com/wailsapp/wails/v2/pkg/runtime"
 	"gorm.io/gorm/clause"
 )
 
-func (r *Repository) CreateOrUpdateProductFromResponse(resp *response.Product) {
+func (r *Repository) CreateOrUpdateProductFromResponse(resp *response.GetProducts) {
 	products := []models.Product{}
 
 	for _, p := range resp.Data {
@@ -48,4 +51,23 @@ func (r *Repository) CreateOrUpdateProductFromResponse(resp *response.Product) {
 	}
 
 	r.db.Clauses(clause.OnConflict{UpdateAll: true}).Create(products)
+}
+
+func (r *Repository) SyncProduct(warehouseId string) {
+	if isconnect.IsOnline() {
+		limit := constants.MAX_LIMIT_SYNC
+		page := 1
+		next := "Sync"
+
+		for next != "" {
+			products := r.api.GetProducts(warehouseId, page, limit)
+			r.CreateOrUpdateProductFromResponse(products)
+			next = products.NextPageURL
+			page = page + 1
+
+			runtime.EventsEmit(r.ctx, "sync_progress", []any{
+				"Barang", products.CurrentPage, products.LastPage,
+			})
+		}
+	}
 }

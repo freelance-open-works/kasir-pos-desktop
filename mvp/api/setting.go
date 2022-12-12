@@ -8,24 +8,25 @@ import (
 	"github.com/wailsapp/wails/v2/pkg/runtime"
 )
 
-func (api *Api) Login(username, password string) *response.Auth {
-	// go login logic
-	var authResponse *response.Auth
-	url := fmt.Sprintf("%s/login", api.BASE_URL)
+func (api *Api) GetSettings() []*response.GetSetting {
+	// go logic
+	settings := []*response.GetSetting{}
+
+	url := fmt.Sprintf("%s/settings", api.BASE_URL)
 
 	var client = resty.New()
 
 	_, err := client.R().
 		EnableTrace().
 		SetHeader("Content-Type", "application/json").
-		SetBody(fmt.Sprintf(`{"username": "%s", "password": "%s"}`, username, password)).
-		SetResult(&authResponse).
-		Post(url)
+		SetHeader("Authorization", api.TOKEN).
+		SetResult(&settings).
+		Get(url)
 
 	if err != nil {
 		fmt.Println(err)
 		runtime.EventsEmit(api.ctx, "toast_general", "Server Error")
 	}
 
-	return authResponse
+	return settings
 }

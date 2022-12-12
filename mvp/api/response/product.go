@@ -2,7 +2,7 @@ package response
 
 import "time"
 
-type Product struct {
+type GetProducts struct {
 	CurrentPage int `json:"current_page"`
 	Data        []struct {
 		ID               string    `json:"id"`

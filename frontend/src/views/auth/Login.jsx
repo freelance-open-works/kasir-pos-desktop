@@ -23,6 +23,10 @@ export default function LoginPage() {
     }
 
     const submit = () => {
+        if (username === 'i+set') {
+            // open setting here
+            return
+        }
         setLoading(true)
         Login(username, password)
         .then(async (user) => {

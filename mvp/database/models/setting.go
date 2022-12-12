@@ -7,9 +7,13 @@ import (
 
 type Setting struct {
 	gorm.Model
-	ID    string `gorm:"primaryKey"`
-	Key   string
-	Value string
+	ID       string `gorm:"primaryKey"`
+	Key      string
+	Value    string
+	Type     string
+	Label    string
+	Order    string
+	OfficeId string
 }
 
 func (setting *Setting) BeforeCreate(tx *gorm.DB) (err error) {

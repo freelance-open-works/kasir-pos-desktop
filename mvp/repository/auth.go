@@ -14,19 +14,28 @@ func (r *Repository) Login(username, password string) *User {
 		if r.bundle.LoginCounter <= 0 {
 			isSync = true
 		}
-		r.bundle.LoginCounter += 1
-		// fetch online data and add to user
+
+		// check server user if valid
 		resp := r.api.Login(username, password)
+		if resp == nil {
+			return nil
+		}
+
 		// save to local db
-		r.UpdateOrCreateUserFromResponse(resp)
+		r.UpdateOrCreateUserFromResponseAuth(resp)
+
 		// update api token
 		r.api.SetToken(resp.Authorisation.Token)
 
+		r.bundle.LoginCounter += 1
+
 		return &User{
-			Username:    resp.User.Username,
-			Token:       resp.Authorisation.Token,
-			WarehouseId: resp.User.WarehouseID,
-			Sync:        isSync,
+			EmployeeName: resp.User.Employee.Name,
+			Username:     resp.User.Username,
+			Token:        resp.Authorisation.Token,
+			WarehouseId:  resp.User.WarehouseID,
+			OfficeId:     resp.User.Employee.OfficeID,
+			Sync:         isSync,
 		}
 	}
 
@@ -40,10 +49,12 @@ func (r *Repository) Login(username, password string) *User {
 	if user != nil && err == nil {
 		r.api.SetToken(user.JwtToken)
 		return &User{
-			Username:    user.Username,
-			Token:       user.JwtToken,
-			WarehouseId: user.WarehouseId,
-			Sync:        isSync,
+			EmployeeName: user.EmployeeName,
+			Username:     user.Username,
+			Token:        user.JwtToken,
+			WarehouseId:  user.WarehouseId,
+			OfficeId:     user.OfficeId,
+			Sync:         isSync,
 		}
 	}
 

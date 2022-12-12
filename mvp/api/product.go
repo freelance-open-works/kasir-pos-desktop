@@ -8,9 +8,9 @@ import (
 	"github.com/wailsapp/wails/v2/pkg/runtime"
 )
 
-func (api *Api) GetProducts(warehouseId string, page, limit int) *response.Product {
+func (api *Api) GetProducts(warehouseId string, page, limit int) *response.GetProducts {
 	// go logic
-	products := &response.Product{}
+	products := &response.GetProducts{}
 	url := fmt.Sprintf("%s/products?warehouse_id=%s&page=%d&limit=%d", api.BASE_URL, warehouseId, page, limit)
 
 	var client = resty.New()

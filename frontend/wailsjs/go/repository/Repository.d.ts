@@ -6,12 +6,26 @@ import {context} from '../models';
 import {gorm} from '../models';
 import {api} from '../models';
 
-export function CreateOrUpdateProductFromResponse(arg1:response.Product):Promise<void>;
+export function CreateOrUpdateCustomerFromResponse(arg1:response.GetCustomers):Promise<void>;
+
+export function CreateOrUpdateProductFromResponse(arg1:response.GetProducts):Promise<void>;
 
 export function Login(arg1:string,arg2:string):Promise<repository.User>;
 
 export function Setup(arg1:context.Context,arg2:gorm.DB,arg3:api.Api):Promise<void>;
 
+export function SyncCustomer():Promise<void>;
+
 export function SyncGet(arg1:string):Promise<void>;
 
-export function UpdateOrCreateUserFromResponse(arg1:response.Auth):Promise<void>;
+export function SyncProduct(arg1:string):Promise<void>;
+
+export function SyncSetting():Promise<void>;
+
+export function SyncUser():Promise<void>;
+
+export function UpdateOrCreateSettingFromResponse(arg1:Array<response.GetSetting>):Promise<void>;
+
+export function UpdateOrCreateUserFromResponse(arg1:response.GetUsers):Promise<void>;
+
+export function UpdateOrCreateUserFromResponseAuth(arg1:response.Auth):Promise<void>;

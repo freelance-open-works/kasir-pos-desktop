@@ -14,7 +14,7 @@ const DATABASE = ".kasirajaposdesktop.db"
 
 func NewDb(ctx context.Context) *gorm.DB {
 	db, err := gorm.Open(sqlite.Open(DATABASE), &gorm.Config{
-		Logger: logger.Default.LogMode(logger.Info),
+		Logger: logger.Default.LogMode(logger.Silent),
 	})
 	if err != nil {
 		runtime.LogDebug(ctx, "DB CONNECT ERROR")
@@ -31,6 +31,7 @@ func migrate(db *gorm.DB) {
 	// migrate
 	db.AutoMigrate(&models.User{})
 	db.AutoMigrate(&models.Product{})
+	db.AutoMigrate(&models.Customer{})
 	db.AutoMigrate(&models.Sale{})
 	db.AutoMigrate(&models.SaleItem{})
 	db.AutoMigrate(&models.Setting{})

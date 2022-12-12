@@ -28,10 +28,13 @@ func (r *Repository) Setup(ctx context.Context, db *gorm.DB, api *api.Api) {
 	r.db = db
 	r.api = api
 	r.bundle = &RepositoryBundle{}
+
+	// TODO: i want to add scheduler run evert 30 minutes to check server online and sync sale data / all data
 }
 
 func (r *Repository) SyncGet(warehouseId string) {
-	if isconnect.IsOnline() {
+	isreachable, _ := isconnect.IsReachable(r.api.BASE_URL)
+	if isreachable {
 		go r.SyncSetting()
 		go r.SyncUser()
 		go r.SyncCustomer()

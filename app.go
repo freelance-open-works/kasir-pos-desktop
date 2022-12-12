@@ -2,7 +2,6 @@ package main
 
 import (
 	"context"
-	"fmt"
 	"kasirajapos/mvp/api"
 	db "kasirajapos/mvp/database"
 	"kasirajapos/mvp/database/models"
@@ -35,8 +34,6 @@ func (app *App) startup(ctx context.Context) {
 	app.api = api.NewApi(ctx)
 
 	app.repo.Setup(app.ctx, app.db, app.api)
-
-	fmt.Println(&app.api)
 
 	// setup base url
 	setting := &models.Setting{}

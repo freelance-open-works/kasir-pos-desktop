@@ -54,7 +54,8 @@ func (r *Repository) CreateOrUpdateProductFromResponse(resp *response.GetProduct
 }
 
 func (r *Repository) SyncProduct(warehouseId string) {
-	if isconnect.IsOnline() {
+	isreachable, _ := isconnect.IsReachable(r.api.BASE_URL)
+	if isreachable {
 		limit := constants.MAX_LIMIT_SYNC
 		page := 1
 		next := "Sync"

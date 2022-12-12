@@ -10,7 +10,8 @@ import (
 func (r *Repository) Login(username, password string) *User {
 	isSync := false
 
-	if isconnect.IsOnline() {
+	isreachable, _ := isconnect.IsReachable(r.api.BASE_URL)
+	if isreachable {
 		if r.bundle.LoginCounter <= 0 {
 			isSync = true
 		}

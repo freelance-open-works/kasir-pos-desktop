@@ -27,7 +27,8 @@ func (r *Repository) UpdateOrCreateSettingFromResponse(resp []*response.GetSetti
 }
 
 func (r *Repository) SyncSetting() {
-	if isconnect.IsOnline() {
+	isreachable, _ := isconnect.IsReachable(r.api.BASE_URL)
+	if isreachable {
 		settings := r.api.GetSettings()
 		r.UpdateOrCreateSettingFromResponse(settings)
 	}

@@ -1,10 +1,10 @@
 ## KasirAja Desktop
 
 TODO:
-- [v] structure project
-- [v] access database layer (gorm)
-- [v] login
-- [v] sync
-- [] pos - transaction 
-- [] transaction offline
-- [] sync transaction
+- [x] structure project
+- [x] access database layer (gorm)
+- [x] login
+- [x] sync
+- [ ] pos - transaction 
+- [ ] transaction offline
+- [ ] sync transaction

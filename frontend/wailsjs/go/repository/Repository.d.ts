@@ -12,6 +12,8 @@ export function CreateOrUpdateProductFromResponse(arg1:response.GetProducts):Pro
 
 export function Login(arg1:string,arg2:string):Promise<repository.User>;
 
+export function ReloadBundleSetting():Promise<void>;
+
 export function Setup(arg1:context.Context,arg2:gorm.DB,arg3:api.Api):Promise<void>;
 
 export function SyncCustomer():Promise<void>;

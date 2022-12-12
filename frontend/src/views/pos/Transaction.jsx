@@ -9,6 +9,7 @@ export default function Transaction() {
     const { logout, user } = useBucket()
     const navigate = useNavigate()
 
+    const [customer, setCustomer] = useState(null)
     const [items, setItems] = useState(() => defaultItems())
 
     const addItem = (e) => {
@@ -42,7 +43,13 @@ export default function Transaction() {
     }
 
     const handleKeyPress = useCallback((event) => {
-        console.log(`Key pressed: ${event.key}`);   
+        console.log(`Key pressed: ${event.key}`);
+        if (event.key === 'F4') {
+            setItems(() => defaultItems())
+        }
+        if (event.key === 'F9') {
+            logout()
+        }
     }, []);
 
     useEffect(() => {
@@ -58,7 +65,6 @@ export default function Transaction() {
         }
     }, [user])
 
-    console.log(user)
     return (
         <div className="font-bold text-gray-50 bg-gray-900 min-h-screen py-1 px-4">
             <div className="text-2xl my-4">
@@ -75,7 +81,6 @@ export default function Transaction() {
                 </div>
                 <div>
                     <div>{(new Date()).toLocaleDateString()}</div>
-                    <div>{(new Date()).toLocaleTimeString()}</div>
                 </div>
             </div>
             <div className="flex w-full justify-center my-2 h-100 table-wrp">

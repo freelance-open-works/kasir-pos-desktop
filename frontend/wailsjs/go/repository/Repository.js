@@ -14,6 +14,10 @@ export function Login(arg1, arg2) {
   return window['go']['repository']['Repository']['Login'](arg1, arg2);
 }
 
+export function ReloadBundleSetting() {
+  return window['go']['repository']['Repository']['ReloadBundleSetting']();
+}
+
 export function Setup(arg1, arg2, arg3) {
   return window['go']['repository']['Repository']['Setup'](arg1, arg2, arg3);
 }

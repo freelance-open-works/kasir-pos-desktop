@@ -1,5 +1,5 @@
 import React from "react";
-import { useEffect, useCallback } from "react";
+import { useEffect } from "react";
 import { HashRouter, Routes, Route } from "react-router-dom";
 import { ToastContainer, toast } from 'react-toastify';
 import { EventsOn, EventsOff } from "../wailsjs/runtime";
@@ -10,20 +10,6 @@ import Login from "./views/auth/Login";
 import Transaction from "./views/pos/Transaction";
 
 function App() {
-    const handleKeyPress = useCallback((event) => {
-        console.log(`Key pressed: ${event.key}`);
-    }, []);
-    
-    useEffect(() => {
-        // attach the event listener
-        document.addEventListener('keydown', handleKeyPress);
-    
-        // remove the event listener
-        return () => {
-            document.removeEventListener('keydown', handleKeyPress);
-        };
-    }, [handleKeyPress]);
-
     useEffect(() => {
         EventsOn("toast_general", (message) => {
             toast(message)

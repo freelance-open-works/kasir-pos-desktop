@@ -3,7 +3,10 @@ import { useNavigate } from "react-router-dom";
 import { Button } from "flowbite-react";
 import { useBucket } from "../../context/AppContext";
 import ModalSync from "./ModalSync";
+import Modal from "../components/Modal";
 import { defaultItems } from "./helper";
+import { GetSearchProduct } from "wails/go/repository/Repository"
+import ModalProduct from "./Products/ModalProduct";
 
 export default function Transaction() {
     const { logout, user } = useBucket()
@@ -11,47 +14,83 @@ export default function Transaction() {
 
     const [customer, setCustomer] = useState(null)
     const [items, setItems] = useState(() => defaultItems())
-
+    const [tmpitems, setTmpItems] = useState(() => defaultItems())
+    const [isOpen, SetOpen] = useState(false)
+    const [search, SetSearh] = useState()
     const addItem = (e) => {
-        const Index = items.findIndex(i => {
-            console.log("I", i)
-            return i.Barcode === ""
-        })
-        if (Index === -1) {
-            setItems(items.concat({
-                Barcode: e.target.value, 
-                Name: e.target.value,
-                Price: 0,
-                UnitName: "",
-            }))
-        } else {
-            setItems(items.map((item, i) => {
-                if (i === Index) {
-                    return {
-                        ...item,
-                        Barcode: e.target.value, 
-                        Name: e.target.value
-                    }
-                }
-                return item
-            }))
-        }
+        console.log(e.target.value)
+        SetSearh(e.target.value);
+        // if (e.keyCode === 13) {
+        //     GetSearchProduct(e.target.value).then((result)=>(setItems(result)))
+        // }
+        
+
+        // const Index = items.findIndex(i => {
+        //     console.log("I", i)
+        //     return i.Barcode === ""
+        // })
+        // if (Index === -1) {
+        //     setItems(items.concat({
+        //         Barcode: e.target.value, 
+        //         Name: e.target.value,
+        //         Price: 0,
+        //         UnitName: "",
+        //     }))
+        // } else {
+        //     setItems(items.map((item, i) => {
+        //         if (i === Index) {
+        //             return {
+        //                 ...item,
+        //                 Barcode: e.target.value, 
+        //                 Name: e.target.value
+        //             }
+        //         }
+        //         return item
+        //     }))
+        // }
     }
 
+    // enter
+    const handleEnterOnInput = (e) => {
+       
+        if (e.key === 'Enter') {
+            console.log("Search : "+search)
+            GetSearchProduct(search).then((result) => {
+                if (result.length===1){
+                    setItems(result)
+                }else{
+                    toggle()
+                }
+            })
+        }
+    }
+    
     const back = () => {
         navigate("/")
     }
-
+    
     const handleKeyPress = useCallback((event) => {
-        console.log(`Key pressed: ${event.key}`);
+        // console.log(`Key pressed: ${event.key}`);
+        if (event.key === 'F2') {
+            toggle()
+        }
         if (event.key === 'F4') {
             setItems(() => defaultItems())
         }
         if (event.key === 'F9') {
             logout()
         }
-    }, []);
-
+    }, [isOpen,items]);
+    const toggle = () => {
+        console.log(isOpen)
+        if (isOpen == true) {
+             GetSearchProduct("").then((result) => {
+                setTmpItems(result)
+            })
+        }
+        SetOpen(!isOpen)
+    }
+   
     useEffect(() => {
         document.addEventListener('keydown', handleKeyPress);
         return () => {
@@ -76,7 +115,7 @@ export default function Transaction() {
                         Kasir : {user?.EmployeeName}
                     </div>
                     <div>
-                        Pelanggan : 
+                        Pelanggan :
                     </div>
                 </div>
                 <div>
@@ -129,16 +168,16 @@ export default function Transaction() {
                                     {item.UnitName}
                                 </td>
                                 <td className="py-2">
-                                    <input className="h-8 w-20 text-right bg-gray-800"/>
+                                    <input className="h-8 w-20 text-right bg-gray-800" />
                                 </td>
                                 <td className="py-2">
-                                    <input className="h-8 w-20 text-right bg-gray-800"/>
+                                    <input className="h-8 w-20 text-right bg-gray-800" />
                                 </td>
                                 <td className="py-2">
-                                    <input className="h-8 w-20 text-right bg-gray-800"/>
+                                    <input className="h-8 w-20 text-right bg-gray-800" />
                                 </td>
                                 <td className="px-6 text-right">
-                                    
+
                                 </td>
                             </tr>
                         ))}
@@ -146,10 +185,11 @@ export default function Transaction() {
                 </table>
             </div>
             <div className="w-full my-2">
-                <input 
+                <input
                     className="w-full h-16 text-gray-900 text-5xl border-blue-600"
                     autoFocus={true}
                     onChange={addItem}
+                    onKeyDown={handleEnterOnInput}
                 />
             </div>
             <div className="flex space-x-2 justify-end">
@@ -168,9 +208,10 @@ export default function Transaction() {
                 <Button size="xs" onClick={() => logout()}>
                     Logout (f9)
                 </Button>
+                <ModalProduct isOpen={isOpen} toggle={toggle} title={"Cari Barang"} listproduct={tmpitems}/>
             </div>
             
-            <ModalSync/>
+            <ModalSync />
         </div>
     )
 }

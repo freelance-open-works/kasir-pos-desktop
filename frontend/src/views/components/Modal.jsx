@@ -3,6 +3,7 @@ import { HiX } from "react-icons/hi";
 
 
 export default function Modal({ isOpen, toggle = () => {}, children, title = "", maxW = '2' }) {
+  
     return (
         <div className={`${isOpen ? "" : "hidden "} overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 p-4 w-full md:inset-0 h-modal md:h-full justify-center items-center flex bg-opacity-50 dark:bg-opacity-90 bg-gray-900 dark:bg-gray-900`}>
             <div className={`relative w-full max-w-${maxW}xl h-full md:h-auto`}>

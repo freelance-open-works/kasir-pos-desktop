@@ -12,9 +12,7 @@ func (api *Api) GetProducts(warehouseId string, page, limit int) *response.GetPr
 	// go logic
 	products := &response.GetProducts{}
 	url := fmt.Sprintf("%s/products?warehouse_id=%s&page=%d&limit=%d", api.BASE_URL, warehouseId, page, limit)
-
 	var client = resty.New()
-
 	_, err := client.R().
 		EnableTrace().
 		SetHeader("Content-Type", "application/json").
@@ -26,6 +24,5 @@ func (api *Api) GetProducts(warehouseId string, page, limit int) *response.GetPr
 		fmt.Println(err)
 		runtime.EventsEmit(api.ctx, "toast_general", "Server Error")
 	}
-
 	return products
 }

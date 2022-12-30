@@ -72,3 +72,7 @@ func (r *Repository) SyncProduct(warehouseId string) {
 		}
 	}
 }
+func (r *Repository) GetSearchProduct(productName string, dataproduct []*models.Product) []*models.Product {
+	r.db.Where("Name like ?", "%"+productName+"%").Find(&dataproduct)
+	return dataproduct
+}

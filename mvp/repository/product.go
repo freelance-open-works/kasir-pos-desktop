@@ -72,7 +72,15 @@ func (r *Repository) SyncProduct(warehouseId string) {
 		}
 	}
 }
-func (r *Repository) GetSearchProduct(productName string, dataproduct []*models.Product) []*models.Product {
-	r.db.Where("Name like ?", "%"+productName+"%").Find(&dataproduct)
+func (r *Repository) GetProductByNameOrBarcode(name, barcode string, limit, offset int) []*models.Product {
+	dataproduct := []*models.Product{}
+	db := r.db.Where("Name like ?", "%"+name+"%")
+	if barcode != "" {
+		db.Or("Barcode like ? ", "%"+barcode+"%")
+	}
+	db.Limit(limit).
+		Offset(offset).
+		Find(&dataproduct)
+
 	return dataproduct
 }

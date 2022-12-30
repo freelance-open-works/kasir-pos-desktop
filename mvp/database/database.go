@@ -3,6 +3,7 @@ package database
 import (
 	"context"
 	"kasirajapos/mvp/database/models"
+	"kasirajapos/mvp/utils/constants"
 
 	"github.com/wailsapp/wails/v2/pkg/runtime"
 	"gorm.io/driver/sqlite"
@@ -14,7 +15,7 @@ const DATABASE = ".kasirajaposdesktop.db"
 
 func NewDb(ctx context.Context) *gorm.DB {
 	db, err := gorm.Open(sqlite.Open(DATABASE), &gorm.Config{
-		Logger: logger.Default.LogMode(logger.Silent),
+		Logger: logger.Default.LogMode(logger.Info),
 	})
 	if err != nil {
 		runtime.LogDebug(ctx, "DB CONNECT ERROR")
@@ -45,7 +46,7 @@ func seed(db *gorm.DB) {
 	if counter <= 0 {
 		db.Create(&models.Setting{
 			Key:   "BASE_URL",
-			Value: "http://localhost:8000/api/v1",
+			Value: constants.DEFAULT_BASE_URL,
 		})
 	}
 }

@@ -10,8 +10,8 @@ export function CreateOrUpdateProductFromResponse(arg1) {
   return window['go']['repository']['Repository']['CreateOrUpdateProductFromResponse'](arg1);
 }
 
-export function GetSearchProduct(arg1, arg2) {
-  return window['go']['repository']['Repository']['GetSearchProduct'](arg1, arg2);
+export function GetProductByNameOrBarcode(arg1, arg2, arg3, arg4) {
+  return window['go']['repository']['Repository']['GetProductByNameOrBarcode'](arg1, arg2, arg3, arg4);
 }
 
 export function Login(arg1, arg2) {

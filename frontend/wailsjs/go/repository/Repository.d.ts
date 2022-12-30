@@ -11,7 +11,7 @@ export function CreateOrUpdateCustomerFromResponse(arg1:response.GetCustomers):P
 
 export function CreateOrUpdateProductFromResponse(arg1:response.GetProducts):Promise<void>;
 
-export function GetSearchProduct(arg1:string,arg2:Array<models.Product>):Promise<Array<models.Product>>;
+export function GetProductByNameOrBarcode(arg1:string,arg2:string,arg3:number,arg4:number):Promise<Array<models.Product>>;
 
 export function Login(arg1:string,arg2:string):Promise<repository.User>;
 

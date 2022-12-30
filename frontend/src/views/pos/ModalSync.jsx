@@ -52,9 +52,9 @@ export default function ModalSync() {
             title={"Updating data"}
         >
             {progress.map(p => (
-                <div>
+                <div key={p.name}>
                     <Label>{p.name}</Label>
-                    <Progress progress={p.progress} key={p.name}/>
+                    <Progress progress={p.progress}/>
                 </div>
             ))}
 

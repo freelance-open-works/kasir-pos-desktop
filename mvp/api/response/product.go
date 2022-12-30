@@ -12,8 +12,8 @@ type GetProducts struct {
 		CategoryID       string    `json:"category_id"`
 		StockAccountID   string    `json:"stock_account_id"`
 		Name             string    `json:"name"`
-		Price            int       `json:"price"`
-		Cost             int       `json:"cost"`
+		Price            float64   `json:"price"`
+		Cost             float64   `json:"cost"`
 		Code             string    `json:"code"`
 		Barcode          string    `json:"barcode"`
 		LockPurchaseCost int       `json:"lock_purchase_cost"`
@@ -29,8 +29,8 @@ type GetProducts struct {
 		CreatedAt        time.Time `json:"created_at"`
 		UpdatedAt        time.Time `json:"updated_at"`
 		DeletedAt        string    `json:"deleted_at"`
-		PriceShow        string    `json:"price_show"`
-		CostShow         string    `json:"cost_show"`
+		PriceShow        float64   `json:"price_show"`
+		CostShow         float64   `json:"cost_show"`
 		Category         struct {
 			ID        string    `json:"id"`
 			Code      string    `json:"code"`
@@ -80,11 +80,11 @@ type GetProducts struct {
 			CreatedAt       time.Time `json:"created_at"`
 			UpdatedAt       time.Time `json:"updated_at"`
 			DeletedAt       string    `json:"deleted_at"`
-			StockShow       string    `json:"stock_show"`
-			AdjusmentShow   string    `json:"adjusment_show"`
-			SaleShow        string    `json:"sale_show"`
-			PurchaseShow    string    `json:"purchase_show"`
-			CostAverageShow string    `json:"cost_average_show"`
+			StockShow       float64   `json:"stock_show"`
+			AdjusmentShow   float64   `json:"adjusment_show"`
+			SaleShow        float64   `json:"sale_show"`
+			PurchaseShow    float64   `json:"purchase_show"`
+			CostAverageShow float64   `json:"cost_average_show"`
 		} `json:"stocks"`
 	} `json:"data"`
 	FirstPageURL string `json:"first_page_url"`

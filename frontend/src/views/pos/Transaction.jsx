@@ -63,6 +63,7 @@ export default function Transaction() {
             }))
             return  
         }
+
         const Index = items.findIndex(i => i.ID === "")
 
         if (Index !== -1) {
@@ -99,12 +100,16 @@ export default function Transaction() {
         navigate("/")
     }
     
+    const handleReset = () => {
+        setItems(() => defaultItems())
+    }
+
     const handleKeyPress = useCallback((event) => {
         if (event.key === 'F2') {
             productModal.toggle()
         }
         if (event.key === 'F4') {
-            setItems(() => defaultItems())
+            handleReset()
         }
         if (event.key === 'F9') {
             logout()
@@ -233,7 +238,7 @@ export default function Transaction() {
                 <Button size="xs">
                     Pelanggan (f6)
                 </Button>
-                <Button size="xs" onClick={() => back()}>
+                <Button size="xs" onClick={() => handleReset()}>
                     Kosongkan (f4)
                 </Button>
                 <Button size="xs" onClick={() => logout()}>

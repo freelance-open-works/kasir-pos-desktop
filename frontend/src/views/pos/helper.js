@@ -25,5 +25,6 @@ export const defaultItems = () => {
       Stock: "",
       UnitName: "",
       CategoryName: "",
+      Quantity: "",
     }})
 }

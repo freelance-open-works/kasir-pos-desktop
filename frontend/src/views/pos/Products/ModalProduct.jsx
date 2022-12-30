@@ -46,14 +46,16 @@ export default function ModalProduct(props) {
     useEffect(() => {
         if (modalState.isOpen === true) {
             inputRef.current.focus()
-            setLoading(true)
-            setSearch(modalState.data.keyword)
-            GetProductByNameOrBarcode(modalState.data.keyword, "", 10, 0)
-            .then(products => {
-                setProducts(products)
-            })
-            .catch(() => console.log("err"))
-            .finally(() => setLoading(false))
+            if (modalState.data !== null) {
+                setLoading(true)
+                setSearch(modalState.data.keyword)
+                GetProductByNameOrBarcode(modalState.data.keyword, "", 10, 0)
+                .then(products => {
+                    setProducts(products)
+                })
+                .catch(() => console.log("err"))
+                .finally(() => setLoading(false))
+            }
         } else {
             props.inputRef.current.focus()
         }
@@ -65,16 +67,16 @@ export default function ModalProduct(props) {
             isOpen={modalState.isOpen}
             toggle={modalState.toggle}
         >
-            <div className="px-4 pb-4 space-y-2">
-                <div className="flex w-full justify-center my-2 h-100 table-wrp">
+            <div className="pb-4 space-y-2">
+                <div className="flex flex-col w-full items-center my-2 h-m-product">
                     <SearchInput 
                         ref={inputRef} 
                         onChange={handleSearchChange} 
                         onKeyDown={handleSearchKeyDown}
                         value={search}
                     />
-                    <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400 mb-4">
-                        <thead className="text-xs top-0 text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                    <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400 my-4">
+                        <thead className="text-xs top-0 text-gray-700 uppercase bg-gray-50 dark:bg-gray-800 dark:text-gray-400">
                             <tr>
                                 <th scope="col" className="py-3 px-6">
                                     Barcode
@@ -113,6 +115,7 @@ export default function ModalProduct(props) {
                             ))}
                         </tbody>
                     </table>
+                    <>PAGINATION</>
                     {loading && (
                         <Loading/>
                     )}

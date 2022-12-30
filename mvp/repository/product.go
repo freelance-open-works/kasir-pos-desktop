@@ -1,6 +1,7 @@
 package repository
 
 import (
+	"fmt"
 	"kasirajapos/mvp/api/response"
 	"kasirajapos/mvp/database/models"
 	"kasirajapos/mvp/utils/constants"
@@ -19,7 +20,7 @@ func (r *Repository) CreateOrUpdateProductFromResponse(resp *response.GetProduct
 
 		if len(p.Stocks) > 0 {
 			warehouseId = p.Stocks[0].WarehouseID
-			stock = p.Stocks[0].StockShow
+			stock = fmt.Sprintf("%.2f", p.Stocks[0].StockShow)
 		}
 
 		products = append(products, models.Product{
@@ -30,8 +31,8 @@ func (r *Repository) CreateOrUpdateProductFromResponse(resp *response.GetProduct
 			CategoryId:       p.CategoryID,
 			StockAccountId:   p.StockAccountID,
 			Name:             p.Name,
-			Price:            p.PriceShow,
-			Cost:             p.CostShow,
+			Price:            fmt.Sprintf("%.2f", p.PriceShow),
+			Cost:             fmt.Sprintf("%.2f", p.CostShow),
 			Code:             p.Code,
 			Barcode:          p.Barcode,
 			LockPurchaseCost: p.LockPurchaseCost,

@@ -52,9 +52,17 @@ export default function Transaction() {
     const handleAddItem = (product) => {
         const isExists = items.find(i => i.ID === product.ID)
         if(isExists) {
-            return
+            setItems(items.map(item => {
+                if (item.ID == product.ID) {
+                    return {
+                        ...item,
+                        Quantity: item.Quantity + 1
+                    }
+                }
+                return item
+            }))
+            return  
         }
-
         const Index = items.findIndex(i => i.ID === "")
 
         if (Index !== -1) {

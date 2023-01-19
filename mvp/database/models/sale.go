@@ -17,13 +17,13 @@ type Sale struct {
 	Date             string
 	DueDate          string
 	Description      string
-	ShipmentCost     string
+	ShipmentCost     float64
 	OrderStatus      string
 	PaymentStatus    string
-	Amount           string
-	DiscountPercents string
-	DiscountAmount   string
-	DiscountTotal    string
+	Amount           float64
+	DiscountPercents float64
+	DiscountAmount   float64
+	DiscountTotal    float64
 	Note             string
 	CreatedBy        string
 	UpdatedBy        string

@@ -1,10 +1,10 @@
 package repository
 
 import (
-	"fmt"
 	"kasirajapos/mvp/api/response"
 	"kasirajapos/mvp/database/models"
 	"kasirajapos/mvp/utils/constants"
+	"strconv"
 
 	isconnect "github.com/alimasyhur/is-connect"
 	"github.com/wailsapp/wails/v2/pkg/runtime"
@@ -16,12 +16,14 @@ func (r *Repository) CreateOrUpdateProductFromResponse(resp *response.GetProduct
 
 	for _, p := range resp.Data {
 		warehouseId := ""
-		stock := ""
+		stock := 0.00
 
 		if len(p.Stocks) > 0 {
 			warehouseId = p.Stocks[0].WarehouseID
-			stock = fmt.Sprintf("%.2f", p.Stocks[0].StockShow)
+			stock, _ = strconv.ParseFloat(p.Stocks[0].Stocks, 64)
 		}
+		price, _ := strconv.ParseFloat(p.Price, 64)
+		cost, _ := strconv.ParseFloat(p.Cost, 64)
 
 		products = append(products, models.Product{
 			ID:               p.ID,
@@ -31,8 +33,8 @@ func (r *Repository) CreateOrUpdateProductFromResponse(resp *response.GetProduct
 			CategoryId:       p.CategoryID,
 			StockAccountId:   p.StockAccountID,
 			Name:             p.Name,
-			Price:            fmt.Sprintf("%.2f", p.PriceShow),
-			Cost:             fmt.Sprintf("%.2f", p.CostShow),
+			Price:            price,
+			Cost:             cost,
 			Code:             p.Code,
 			Barcode:          p.Barcode,
 			LockPurchaseCost: p.LockPurchaseCost,

@@ -14,8 +14,8 @@ type Product struct {
 	CategoryId       string
 	StockAccountId   string
 	Name             string
-	Price            string
-	Cost             string
+	Price            float64
+	Cost             float64
 	Code             string
 	Barcode          string
 	LockPurchaseCost int
@@ -28,7 +28,7 @@ type Product struct {
 	UpdatedBy        string
 	DeletedBy        string
 	WarehouseId      string
-	Stock            string
+	Stock            float64
 	UnitName         string
 	CategoryName     string
 }

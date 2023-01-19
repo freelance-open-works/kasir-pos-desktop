@@ -11,12 +11,12 @@ type SaleItem struct {
 	SaleId          string
 	ProductId       string
 	Quantity        string
-	Cost            string
-	Price           string
-	DiscountAmount  string
-	DiscountPercent string
-	DiscountTotal   string
-	QuantitySend    string
+	Cost            float64
+	Price           float64
+	DiscountAmount  float64
+	DiscountPercent float64
+	DiscountTotal   float64
+	QuantitySend    float64
 	CreatedBy       string
 	UpdatedBy       string
 	DeletedBy       string

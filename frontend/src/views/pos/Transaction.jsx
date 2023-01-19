@@ -2,7 +2,7 @@ import React, { useEffect, useCallback, useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "flowbite-react";
 import { useBucket } from "../../context/AppContext";
-import { defaultItems } from "./helper";
+import { defaultItems, formatIDR } from "./helper";
 import { useModalState } from "../utils/hooks";
 import { GetProductByNameOrBarcode } from "wails/go/repository/Repository";
 import ModalSync from "./ModalSync";
@@ -92,12 +92,26 @@ export default function Transaction() {
         }
     }
 
-    const handleRemoveItem = (id) => {
-        setItems(items.filter(item => item.ID !== id))
+    const handleAddQuantityItem = (product, e) => {
+        setItems(items.map(item => {
+            if(item.ID === product.ID) {
+                return {
+                    ...item,
+                    Quantity: e.target.value
+                }
+            }
+            return item
+        }))
     }
 
-    const back = () => {
-        navigate("/")
+    const handleEnterInput = (e) => {
+        if(e.key === 'Enter') {
+            inputRef.current.focus()
+        }
+    }
+
+    const handleRemoveItem = (product) => {
+        setItems(items.filter(item => item.ID !== product.ID))
     }
     
     const handleReset = () => {
@@ -116,6 +130,10 @@ export default function Transaction() {
         }
     }, []);
    
+    const total = items.reduce((mt, item) => {
+        return mt + (+item.Quantity * +item.Price)
+    }, 0)
+
     useEffect(() => {
         document.addEventListener('keydown', handleKeyPress);
         return () => {
@@ -134,8 +152,11 @@ export default function Transaction() {
             <div className="text-2xl my-4">
                 KasirAja POS
             </div>
-            <div className="flex justify-between items-center">
+            <div className="flex justify-between items-end">
                 <div>
+                    <div>
+                        {(new Date()).toLocaleDateString()}
+                    </div>
                     <div>
                         Kasir : {user?.EmployeeName}
                     </div>
@@ -143,8 +164,9 @@ export default function Transaction() {
                         Pelanggan :
                     </div>
                 </div>
-                <div>
-                    <div>{(new Date()).toLocaleDateString()}</div>
+                <div className="w-1/2 flex justify-between items-end flex-row text-4xl font-bold">
+                    <div>TOTAL: </div>
+                    <div>{formatIDR(total)}</div>
                 </div>
             </div>
             <div className="flex w-full justify-center my-2 h-100 table-wrp">
@@ -163,15 +185,16 @@ export default function Transaction() {
                             <th scope="col" className="py-3 px-6 text-left">
                                 Satuan
                             </th>
-                            <th scope="col" className="pr-6 text-right">
-                                Qty
+                            <th scope="col" className="text-right">
+                                Jumlah
                             </th>
-                            <th scope="col" className="pr-6 text-right">
+                            {/* TODO LATER */}
+                            {/* <th scope="col" className="pr-6 text-right">
                                 Disc
                             </th>
                             <th scope="col" className="pr-6 text-right">
                                 Disc (%)
-                            </th>
+                            </th> */}
                             <th scope="col" className="py-3 px-6 text-right">
                                 Subtotal
                             </th>
@@ -188,29 +211,32 @@ export default function Transaction() {
                                     {item.Name}
                                 </td>
                                 <td className="px-6 text-right">
-                                    {item.Price}
+                                    {item.Price !==  "" ? formatIDR(item.Price) : ""}
                                 </td>
                                 <td className="px-6">
                                     {item.UnitName}
                                 </td>
-                                <td className="py-2">
+                                <td className="py-2 text-right">
                                     <input 
                                         className="h-8 w-20 text-right bg-gray-800" 
                                         value={item.Quantity}
+                                        onChange={e => handleAddQuantityItem(item, e)}
+                                        onKeyDown={e => handleEnterInput(e)}
                                     />
                                 </td>
-                                <td className="py-2">
+                                {/* TODO LATER */}
+                                {/* <td className="py-2">
                                     <input className="h-8 w-20 text-right bg-gray-800" />
                                 </td>
                                 <td className="py-2">
                                     <input className="h-8 w-20 text-right bg-gray-800" />
-                                </td>
+                                </td> */}
                                 <td className="px-6 text-right">
-                                    
+                                    {item.ID !== "" ? formatIDR(item.Quantity * item.Price) : ""}
                                 </td>
                                 <td className="px-6 text-right text-red-600">
                                     {item.ID !== "" && (
-                                        <HiX onClick={() => handleRemoveItem(item.ID)}/>
+                                        <HiX onClick={() => handleRemoveItem(item)}/>
                                     )}
                                 </td>
                             </tr>
@@ -222,7 +248,7 @@ export default function Transaction() {
                 <input
                     ref={inputRef}
                     className="w-full h-16 text-gray-900 text-5xl border-blue-600"
-                    autoFocus={true}
+                    // autoFocus={true}
                     onChange={handleInputOnChange}
                     onKeyDown={handleInputOnKey}
                     value={input}

@@ -25,6 +25,7 @@ export default function ModalProduct(props) {
                 onItemClick(products[0])
             }
             modalState.toggle()
+            props.inputRef.current.focus()
         }
     }
 
@@ -39,7 +40,7 @@ export default function ModalProduct(props) {
         .then(products => {
             setProducts(products)
         })
-        .catch(() => console.log("err"))
+        .catch((err) => console.log(err))
         .finally(() => setLoading(false))
     }, [q])
 
@@ -53,11 +54,9 @@ export default function ModalProduct(props) {
                 .then(products => {
                     setProducts(products)
                 })
-                .catch(() => console.log("err"))
+                .catch((err) => console.log(err))
                 .finally(() => setLoading(false))
             }
-        } else {
-            props.inputRef.current.focus()
         }
         return () => {}
     }, [modalState])

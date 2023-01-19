@@ -27,7 +27,7 @@ function AppProvider(props) {
             })
             AxiosInstance.defaults.baseURL = url
             // debug
-            console.log(url)
+            console.log(`App api URL : ${url}`)
         })
     }, [])
 

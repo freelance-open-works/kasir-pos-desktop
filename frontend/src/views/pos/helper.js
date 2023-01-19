@@ -28,3 +28,11 @@ export const defaultItems = () => {
       Quantity: "",
     }})
 }
+
+export function formatIDR(amount) {
+    const idFormatter = new Intl.NumberFormat("id-ID",{
+        minimumFractionDigits: 0,
+        maximumFractionDigits: 2,
+    });
+    return idFormatter.format(amount);
+}
